@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Interbot</title>
+
+	<!-- for mobile screens -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="img/favicon.png">
+
+	<link rel="stylesheet" media="all" href="../component/styles/setup.css">
+	<link rel="stylesheet" media="all" href="../component/styles/says.css">
+	<link rel="stylesheet" media="all" href="../component/styles/reply.css">
+	<link rel="stylesheet" media="all" href="../component/styles/typing.css">
+  <link rel="stylesheet" media="all" href="../component/styles/input.css">
+  <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,600,700&display=swap" rel="stylesheet">
+
+  
+	<style>
+	body {
+		background: #E6E6E6;
+	}
+	.bubble-container {
+		height: 100vh;
+	}
+	.bubble-container .input-wrap textarea {
+    margin: 0;
+	}
+	</style>
+</head>
+<body>
+
+
+<div id="chat">
+  <div class="header">
+    <img src="img/image.jpg" width="40px;">
+    <div>
+      <h1>Interbot</h1>
+      <p>Helping you understand intersectionality in the music industry</p>
+    </div>
+  </div>
+</div>
+
+
+<script src="../component/js/Bubbles.js"></script>
+<script>
+let chatWindow = new Bubbles(document.getElementById("chat"), "chatWindow", {
+  inputCallbackFn: function(o) {
+
+    let match = function(key) {
+      setTimeout(function() {
+        chatWindow.talk(convo, key) // restart current convo from point found in the answer
+      }, 600)
+    }
+
+    let strip = function(text) {
+      return text.toLowerCase().replace(/[\s.,\/#!$%\^&\*;:{}=\-_'"`~()]/g, "")
+    }
+
+    // search function
+    let found = false
+    o.convo[o.standingAnswer].reply.forEach(function(e, i) {
+      strip(e.human_response).includes(strip(o.input)) && o.input.length > 0
+        ? (found = e.bot_answer)
+        : found ? null : (found = false)
+    })
+    found ? match(found) : miss()
+  }
+})
+
+let convo = {
+
+// first section
+  
+  intro: {
+  bot_says: ["Hey, Interbot here! Interbot is here to help you learn about intersectionality in the music industry.", "<img src=https://cdn.glitch.com/9678bc52-04c3-4f2a-9ff2-b10f43d33d72%2Fhey%20there.gif?v=1592490958242 />"],
+    human_reply: [
+      {
+        human_response: "Nice, but what actually is intersectionality?",
+        bot_answer: "goodquestion",
+      },
+      ]
+  },
+  
+  //second section
+
+    "goodquestion": {
+    bot_says: ["Good question! Intersectionality is the way in which different kinds of discrimination overlap. For example, women of colour are doubly discriminated against, because they suffer from both racism and sexism."],
+    human_reply: [
+      {
+        human_response: "Ah, I understand. Ive heard about this before.",
+        bot_answer: "explore"
+      },
+      {
+        human_response: "Thats awful! Is there somewhere I can read up on the topic?",
+        bot_answer: "books"
+
+      },
+    ]
+  },
+  
+  //third section
+
+    "explore": {
+    bot_says: ["Awesome. What would you like to explore next?"],
+    human_reply: [
+      {
+        human_response: "Current stats of gender inequality in music",
+        bot_answer: "currentstats"
+
+      },
+      {
+        human_response: "The history of intersectional feminism",
+        bot_answer: "history"
+      },
+    ]
+  },
+  
+  //fourth section
+  
+    "books": {
+    bot_says: ["For sure! There are tons of books that you can check out...", "To read about intersectionality from a black female perspective, read 'Why Im No Longer Talking to White People About Race' by Reni Eddo-Lodge...", "from a trans perspective, check out ‘To My Trans Sisters’ by Charlie Craggs...", "or if you're interested in learning about where sexism and ableism intersect, check out Care Work - Dreaming Disability Justice by Leah Lakshmi Piepzna-Samarasinha."],
+    human_reply: [
+    {
+        human_response: "Thanks! I will delve into these soon.",
+        bot_answer: "explore"
+      },
+    ]
+  },
+  
+    //fifth section
+  
+    "history": {
+    bot_says: ["Alright, sit tight for a mini history lesson.", "<img src=https://cdn.glitch.com/9678bc52-04c3-4f2a-9ff2-b10f43d33d72%2Fsimpsonsgif.gif?v=1595365242389 />", "There have been four waves of feminism so far.", "The first wave was the suffragette era, where women were fighting for the right to vote. This ran from 1888 to the early 1920s.", "<img src=https://cdn.glitch.com/9678bc52-04c3-4f2a-9ff2-b10f43d33d72%2Fsuffragettegif.gif?v=1595370702692 />", "The second wave was when women fought for things such as equal pay and fighting against the expectation of being a housewife.", "<img src=https://cdn.glitch.com/9678bc52-04c3-4f2a-9ff2-b10f43d33d72%2Fhousewifegif.gif?v=1595370975123 />", "It wasnt until the third wave when the term intersectionality was coined by scholar Kimberle Crenshaw.", "This was an important milestone because the first two waves were seen as racist by some black feminists.", "They believed that the other waves of feminism only catered to middle class, white women, and this needed to be changed.", "Luckily, now, intersectional feminism is gaining much more traction.", "Movements such as Black Lives Matter are bringing the issue of intersectionality to the forefront and awareness is being spread.", "<img src=https://cdn.glitch.com/9678bc52-04c3-4f2a-9ff2-b10f43d33d72%2Fblmgif.gif?v=1595371573617 />"],
+    human_reply: [
+    {
+        human_response: "That was super interesting. But what about other types of intersectionality?",
+        bot_answer: "othertypes"
+      },
+    ]
+  },  
+
+    //sixth section
+  
+    "currentstats": {
+    bot_says: ["The statistics of gender inequality in music are pretty dire, despite us living in the 2020s.", "According to recent studies, women make up 16% of all artists, 12% of all songwriters and 3% of all producers.", "<img src=https://cdn.glitch.com/9678bc52-04c3-4f2a-9ff2-b10f43d33d72%2Frihannagif.gif?v=1595372842112 />", "Yep...horrific, isn't it.", "The gender pay gap is also pretty bad. At Sony Music UK it is 26.0%, at Warner Music UK it is 31.5%, at Spotify UK it is 9.9%, and at Live Nation UK it is 44.5%."],
+    human_reply: [
+    {
+        human_response: "Omg! Is there anything we can do to fight this?",
+        bot_answer: "discwoman"
+      },
+    ]
+  },
+  
+  //seventh section
+  
+    "othertypes": {
+    bot_says: ["Which other type of intersectionality would you like to find out more about?"],
+    human_reply: [
+    {
+        human_response: "The intersection of ableism and sexism",
+        bot_answer: "ableism"
+      },
+      {
+        human_response: "The intersection of transphobia and sexism",
+        bot_answer: "transphobia"
+      },
+    ]
+  },
+  
+  //eighth section
+  
+    "ableism": {
+    bot_says: ["Ableism and sexism are unfortunately very intertwined.", "In an article on the Intersectionality Times blog, Christina Ryan discusses how women in general are expected to be polite and submissive, but this is amplified even more for women with disabilities.", "People are more patronizing to women rather than men with disabilities because of this, and that it leads to less work opportunities as a result.", "Even though non-disabled people may think that they are being kind, this leads to problems that are deeply intersected between ableism and sexism."],
+    human_reply: [
+      {
+              human_response: "So what about intersectionality in music?",
+        bot_answer: "currentstats"
+      },
+      {
+        human_response: "Wow, I never thought about it that way. Any other types?",
+        bot_answer: "othertypes"
+      },
+    ]
+  },
+  
+  //ninth section
+  
+  "transphobia": {
+  bot_says: ["Alright, get ready to delve into the history books again.", "<img src=https://cdn.glitch.com/9678bc52-04c3-4f2a-9ff2-b10f43d33d72%2Fready.gif?v=1595453670589 />", "Feminists and transgender people haven't always got on.", "Second-wave feminists were particularly hostile towards trans women, because many of these feminists solely believed in the gender binary.", "<img src=https://cdn.glitch.com/9678bc52-04c3-4f2a-9ff2-b10f43d33d72%2Fwhat.gif?v=1595454015262 />", "Yep, weird right? You would think they would be supporting them.", "This view has even filtered through all of the other waves of feminism, right through to the present day.", "These women have been dubbed TERFs in recent years, meaning Trans-Exclusionary Radical Feminists. Even JK Rowling is one of them."],
+    human_reply: [
+    {
+        human_response: "How horrific. Are there any other types?",
+        bot_answer: "othertypes"
+      },
+      {
+        human_response: "I am ready to move on to music now. What about sexism in the music industry?",
+        bot_answer: "currentstats"
+      },
+    ]
+  },
+  
+  //tenth section
+
+    "discwoman": {
+    bot_says: ["Yes, there are female-identifying people out there who are constantly fighting for equality in the industry.", "An example of this is Discwoman. They are a New York-based DJ collective and agency which was founded back in 2014.", "Frankie Decaiza Hutchinson who founded the collective stated in an interview that the NYC scene has changed dramatically since they got involved.", "There are now lots more women in line ups around the city compared to a few years ago.", "<img src=https://cdn.glitch.com/9678bc52-04c3-4f2a-9ff2-b10f43d33d72%2Fyas.gif?v=1595450593984 />"],
+    human_reply: [
+    {
+        human_response: "Wow, how amazing! And what about over here in the UK?",
+        bot_answer: "ukcollectives"
+      },
+    ]
+  },
+  
+  //eleventh section
+  
+    "ukcollectives": {
+    bot_says: ["There are so many amazing female music collectives that exist in the UK right now.", "Leeds-based Equaliser were one of the originals, who host monthly DJ workshops for women and non binary people as well as hosting club nights.", "Similarly in Manchester there are Not Bad for a Girl and All Hands On Deck...", "In Bristol theres Concrete Jungyals...", "And in London theres Rhythm Sister."],
+    human_reply: [
+      {
+        human_response: "Thats fab. But how do we know they are intersectional?",
+        bot_answer: "intersectionalcollectives"
+      },
+      {
+        human_response: "😍",
+        bot_answer: "hope"
+      },
+    ]
+  },
+  
+  //twelfth section
+  
+    "hope": {
+    bot_says: ["Awesome isnt it!", "Luckily there is a little bit of hope going forward.", "Female-identifying people are starting to realise the horrible injustices of the industry and are making a stand.", "<img src=https://cdn.glitch.com/9678bc52-04c3-4f2a-9ff2-b10f43d33d72%2Fchatbot%20sistas%20gif.gif?v=1598778453667 />"],
+    human_reply: [
+    {
+        human_response: "Thank you Interbot, you have taught me a lot!",
+        bot_answer: "thanks"
+      },
+    ]
+  }, 
+  
+  //thirteenth section
+  
+    "intersectionalcollectives": {
+    bot_says: ["Most of these collectives dont just give a platform for female DJs, but also outrightly welcome non-binary and trans DJs.", "This approach is great because these collectives are recognising that these people are also marginalised within the industry (arguably more than female DJs).", "Black Lives Matter was recently a huge point of discussion within the female-identifying DJ community, and many collectives are rethinking how they can include people of colour."],
+  human_reply: [
+    {
+      human_response: "Thats amazing. At least there is a bit of hope!",
+      bot_answer: "hope"
+    },
+  ]
+},
+  
+  //fourteenth section
+  
+    "thanks": {
+    bot_says: ["It has been my pleasure chatting with you!", "Hopefully you learnt a lot. This means nothing if you dont practise intersectionality in the real world, though.", "Get out there and make the world a better place by spreading the word of intersectional feminism!", "<img src=https://cdn.glitch.com/9678bc52-04c3-4f2a-9ff2-b10f43d33d72%2Fspread%20the%20word.gif?v=1598778882151 />", "If you're into music, you could even try making your own collective in your city."],
+    human_reply: [
+    {
+        human_response: "Indeed I will! Cheers!",
+        bot_answer: "enjoyday"
+      },
+    ]
+  },
+  
+  //fifteenth section
+  
+    "enjoyday": {
+    bot_says: ["No problem. Enjoy your day and remember that you can always come back here whenever!", "<img src=https://cdn.glitch.com/9678bc52-04c3-4f2a-9ff2-b10f43d33d72%2Fbye.gif?v=1598779070192 />"],
+  },
+
+}
+
+chatWindow.talk(convo)
+</script>
+</body>
