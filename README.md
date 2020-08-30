@@ -1,2 +1,2 @@
-# Feminist-Chatbot-Prototype
-This is where you will download files for your Feminist Chatbot Prototype.
+feminist-chatbot
+A feminist chatbot which aims to educate people on intersectionality, particularly in the music industry.
